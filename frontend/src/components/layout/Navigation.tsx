@@ -84,7 +84,7 @@ export function Sidebar() {
   const navigation = [
     { name: "Home", href: "/", icon: Home },
     { name: "Profile", href: `/profile/${user._id}`, icon: User },
-    { name: "Settings", href: "/settings", icon: Settings },
+    // { name: "Settings", href: "/settings", icon: Settings },
   ];
 
   return (

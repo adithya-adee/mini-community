@@ -4,9 +4,9 @@ const User = require("../models/user.js");
 const createPost = async (req, res) => {
   try {
     const { content } = req.body;
-    const authorId = req.user.id; // From JWT token
-
-    // Validate user exists
+    const authorId = req.user.id; 
+    
+    // Check for existing User 
     const user = await User.findById(authorId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });

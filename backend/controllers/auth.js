@@ -21,7 +21,7 @@ const register = async (req, res) => {
     const newUser = new User({
       name,
       email,
-      password, // Password will be hashed by the model's pre-save middleware
+      password,
       bio: bio || '',
       profilePicture: profilePicture || '',
     });
@@ -33,7 +33,7 @@ const register = async (req, res) => {
     
     res.status(201).json({ 
       token,
-      user: savedUser // toJSON method will remove password automatically
+      user: savedUser
     });
   } catch (err) {
     res.status(500).json({ error: err.message });

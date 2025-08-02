@@ -15,6 +15,7 @@ import {
   MoreHorizontal,
   Plus,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export function CreatePost({ onPostCreated }: { onPostCreated: () => void }) {
   const [content, setContent] = useState("");
@@ -73,6 +74,7 @@ export function PostCard({
   onDelete?: (postId: string) => void;
 }) {
   const { user } = useAuth();
+  const router = useRouter();
   const isLiked = post.likes.some((like) => like.user === user?._id);
   const isOwner = post.author._id === user?._id;
 
@@ -82,7 +84,7 @@ export function PostCard({
     const diffInHours =
       Math.abs(now.getTime() - date.getTime()) / (1000 * 60 * 60);
 
-    if (diffInHours < 1) {
+    if (diffInHours < 0.5) {
       return "Just now";
     } else if (diffInHours < 24) {
       return `${Math.floor(diffInHours)}h ago`;
@@ -91,12 +93,16 @@ export function PostCard({
     }
   };
 
+  const handleProfileRedirect = (id: string) => {
+    router.replace(`/profile/${id}`);
+  };
+
   return (
     <Card>
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div className="flex items-center space-x-3">
-            <Avatar>
+            <Avatar onClick={() => handleProfileRedirect(post.author._id)}>
               <AvatarImage src={post.author.profilePicture} />
               <AvatarFallback>
                 {post.author.name
