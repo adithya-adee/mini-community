@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL!;
 
 // Auth API calls
 export const authAPI = {
@@ -9,6 +9,7 @@ export const authAPI = {
     bio?: string;
     profilePicture?: string;
   }) => {
+    console.log(API_BASE_URL);
     const response = await fetch(`${API_BASE_URL}/auth/register`, {
       method: "POST",
       headers: {
