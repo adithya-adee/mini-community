@@ -42,6 +42,10 @@ A modern social media platform built with Node.js, Express, MongoDB, Next.js, an
 - **Lucide React** - Icon library
 - **React Hook Form** - Form management
 
+## Video 
+
+https://github.com/user-attachments/assets/a361a29c-cd3f-41c9-b75c-0a83526b1198
+
 ## 📁 Project Structure
 
 ```
