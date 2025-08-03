@@ -91,6 +91,19 @@ export default function ProfilePage() {
     }
   };
 
+  const handlePostDelete = async (id: string) => {
+    try {
+      if (!token) {
+        return;
+      }
+
+      await postAPI.deletePost(id, token);
+      console.log("Deleted Successfully");
+    } catch (error) {
+      console.error("Failed to delete post", error);
+    }
+  };
+
   if (loading) {
     return (
       <DashboardLayout>
@@ -117,7 +130,7 @@ export default function ProfilePage() {
         <div className="text-center py-12">
           <h1 className="text-2xl font-bold mb-2">User not found</h1>
           <p className="text-muted-foreground">
-            The user you're looking for doesn't exist.
+            The user you&apos;re looking for doesn&apos;t exist.
           </p>
         </div>
       </DashboardLayout>
@@ -262,7 +275,12 @@ export default function ProfilePage() {
           ) : (
             <div className="space-y-4">
               {posts.map((post) => (
-                <PostCard key={post._id} post={post} onLike={handleLike} />
+                <PostCard
+                  key={post._id}
+                  post={post}
+                  onLike={handleLike}
+                  onDelete={() => handlePostDelete(post._id)}
+                />
               ))}
             </div>
           )}

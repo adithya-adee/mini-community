@@ -8,13 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  Heart,
-  MessageCircle,
-  Share2,
-  MoreHorizontal,
-  Plus,
-} from "lucide-react";
+import { Heart, MessageCircle, Share2, Plus, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export function CreatePost({ onPostCreated }: { onPostCreated: () => void }) {
@@ -71,7 +65,7 @@ export function PostCard({
 }: {
   post: Post;
   onLike: (postId: string) => void;
-  onDelete?: (postId: string) => void;
+  onDelete: (postId: string) => void;
 }) {
   const { user } = useAuth();
   const router = useRouter();
@@ -119,8 +113,13 @@ export function PostCard({
             </div>
           </div>
           {isOwner && (
-            <Button variant="ghost" size="icon">
-              <MoreHorizontal className="h-4 w-4" />
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => onDelete(post._id)}
+            >
+              {/* <MoreHorizontal className="h-4 w-4" /> */}
+              <Trash className="h-4 w-4 text-red-600" />
             </Button>
           )}
         </div>
@@ -213,6 +212,20 @@ export function PostFeed() {
     fetchPosts(nextPage, false);
   };
 
+  const handlePostDelete = async (id: string) => {
+    try {
+      if (!token) {
+        return;
+      }
+
+      await postAPI.deletePost(id, token);
+      console.log("Deleted Successfully");
+      window.location.reload();
+    } catch (error) {
+      console.error("Failed to delete post", error);
+    }
+  };
+
   if (loading && posts.length === 0) {
     return (
       <div className="space-y-4">
@@ -242,7 +255,12 @@ export function PostFeed() {
       <CreatePost onPostCreated={handlePostCreated} />
       <div className="space-y-4">
         {posts.map((post) => (
-          <PostCard key={post._id} post={post} onLike={handleLike} />
+          <PostCard
+            key={post._id}
+            post={post}
+            onLike={handleLike}
+            onDelete={() => handlePostDelete(post._id)}
+          />
         ))}
       </div>
       {hasMore && !loading && (

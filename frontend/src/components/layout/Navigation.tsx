@@ -3,7 +3,7 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { LogOut, User, Home, Settings } from "lucide-react";
+import { LogOut, User, Home } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
