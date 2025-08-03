@@ -1,13 +1,16 @@
 const mongoose = require('mongoose')
 const cors = require('cors')
 const express = require('express')
+require('dotenv').config();
+
+const mongo_url = process.env.MONGO_URL || "";
+const port = process.env.PORT; 
 
 const authRoutes = require('./routes/auth')
 const postRoutes = require('./routes/posts')
 const userRoutes = require('./routes/users')
 
 const app = express();
-const port = process.env.PORT || 3001; // Use environment variable for port or default to 3001
 
 // Middleware
 app.use(express.json({ limit: '30mb' }));
@@ -26,7 +29,7 @@ app.use("/posts", postRoutes);
 
 // MONGO + SERVER
 mongoose
-  .connect(process.env.MONGO_URL || "mongodb+srv://MERN:adee1234@cluster0.wy94lqf.mongodb.net/community")
+  .connect(mongo_url)
   .then(() => {
     console.log("Connected to mongoDB")
     app.listen(port, () => console.log(`Server Port: ${port}`));
